@@ -12,12 +12,11 @@ import {
   Squares2X2Icon,
   UsersIcon,
   FolderIcon,
-  ChevronDoubleLeftIcon,
-  BellIcon,
+  ArrowRightStartOnRectangleIcon,
   SparklesIcon,
   WalletIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "@heroui/react";
+import { Button, Tooltip } from "@heroui/react";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client";
 
@@ -243,31 +242,24 @@ export default function DefaultLayout() {
               {getInitial(user?.name)}
             </div>
 
-            <Button
-              isIconOnly
-              variant="light"
-              aria-label="Notifications"
-              className="relative min-w-10 text-slate-500"
-            >
-              <BellIcon className="size-5" />
-              {notification && (
-                <span className="absolute right-2 top-2 size-2 rounded-full bg-red-500 ring-2 ring-white" />
-              )}
-            </Button>
+            <Tooltip delay={0}>
+              <Button
+                isIconOnly
+                variant="danger-soft"
+                size="sm"
+                aria-label={loggingOut ? "Logging out" : "Logout"}
+                onPress={onLogout}
+                isLoading={loggingOut}
+                isDisabled={loggingOut}
+              >
+                <ArrowRightStartOnRectangleIcon className="size-5" />
+              </Button>
 
-            <Button
-              color="danger"
-              variant="flat"
-              size="sm"
-              isDisabled={loggingOut}
-              onPress={onLogout}
-              startContent={<ChevronDoubleLeftIcon className="size-4" />}
-              className="font-semibold"
-            >
-              <span className="hidden sm:inline">
-                {loggingOut ? "Logging out..." : "Logout"}
-              </span>
-            </Button>
+              <Tooltip.Content showArrow placement="bottom">
+                <Tooltip.Arrow />
+                <p>Logout</p>
+              </Tooltip.Content>
+            </Tooltip>
           </div>
         </header>
 

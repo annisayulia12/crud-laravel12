@@ -26,7 +26,11 @@ public function rules(): array
 {
     return [
         'name' => 'required|string|max:55',
-        'email' => 'required|email|unique:users,email,' . $this->id,
+        'email' => [
+                    'required',
+                    'email',
+                    'unique:users,email,' . $this->route('user')?->id,
+                ],
         'password' => [
             'nullable',
             'confirmed',
